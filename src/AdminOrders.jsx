@@ -99,6 +99,129 @@ export default function AdminOrders() {
     fetchOrders();
   }, []);
 
+  let ordersContent;
+  if (loading) {
+    ordersContent = <div className="empty-state">Memuat order...</div>;
+  } else if (orders.length === 0) {
+    ordersContent = <div className="empty-state">Belum ada order masuk.</div>;
+  } else {
+    ordersContent = (
+      <div className="orders-list">
+        {orders.map((order) => (
+          <article className="order-card" key={order.id}>
+            <div className="order-top">
+              <div>
+                <h3>{order.order_code}</h3>
+
+                <div className="order-type-line">
+                  {order.order_type === "take_away" ? (
+                    <>
+                      <ShoppingBag size={15} />
+                      <span>Take Away</span>
+                    </>
+                  ) : (
+                    <>
+                      <Table2 size={15} />
+                      <span>Meja {order.table_number}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <span className={`status-badge ${order.status}`}>
+                {formatStatus(order.status)}
+              </span>
+            </div>
+
+            <div className="order-meta">
+              <div>
+                <ShoppingBag size={16} />
+                {order.items.length} item
+              </div>
+
+              <div>
+                <Clock size={16} />
+                {order.created_at}
+              </div>
+
+              <div>
+                {order.order_type === "take_away" ? (
+                  <ShoppingBag size={16} />
+                ) : (
+                  <Utensils size={16} />
+                )}
+                {formatOrderType(order.order_type)}
+              </div>
+            </div>
+
+            {order.order_type === "take_away" && (
+              <div className="customer-box">
+                <div>
+                  <User size={15} />
+                  <span>{order.customer_name || "-"}</span>
+                </div>
+
+                <div>
+                  <Phone size={15} />
+                  <span>{order.customer_phone || "-"}</span>
+                </div>
+              </div>
+            )}
+
+            <div className="items-box">
+              {order.items.map((item) => (
+                <div className="item-row" key={item.id}>
+                  <div>
+                    <strong>{item.menu_name}</strong>
+                    {item.notes && <small>Catatan: {item.notes}</small>}
+                  </div>
+
+                  <span>
+                    {item.quantity} x {formatRupiah(item.price)}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="order-total">
+              <span>Total</span>
+              <strong>{formatRupiah(order.total_amount)}</strong>
+            </div>
+
+            <div className="order-actions">
+              <button
+                className="process-btn"
+                onClick={() => updateStatus(order.id, "processing")}
+                disabled={order.status === "processing"}
+              >
+                <Utensils size={16} />
+                Proses
+              </button>
+
+              <button
+                className="done-btn"
+                onClick={() => updateStatus(order.id, "completed")}
+                disabled={order.status === "completed"}
+              >
+                <CheckCircle2 size={16} />
+                Selesai
+              </button>
+
+              <button
+                className="cancel-btn"
+                onClick={() => updateStatus(order.id, "cancelled")}
+                disabled={order.status === "cancelled"}
+              >
+                <XCircle size={16} />
+                Batalkan
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <main className="admin-page">
       <section className="admin-shell">
@@ -124,125 +247,7 @@ export default function AdminOrders() {
 
         {message && <div className="admin-message">{message}</div>}
 
-        {loading ? (
-          <div className="empty-state">Memuat order...</div>
-        ) : orders.length === 0 ? (
-          <div className="empty-state">Belum ada order masuk.</div>
-        ) : (
-          <div className="orders-list">
-            {orders.map((order) => (
-              <article className="order-card" key={order.id}>
-                <div className="order-top">
-                  <div>
-                    <h3>{order.order_code}</h3>
-
-                    <div className="order-type-line">
-                      {order.order_type === "take_away" ? (
-                        <>
-                          <ShoppingBag size={15} />
-                          <span>Take Away</span>
-                        </>
-                      ) : (
-                        <>
-                          <Table2 size={15} />
-                          <span>Meja {order.table_number}</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  <span className={`status-badge ${order.status}`}>
-                    {formatStatus(order.status)}
-                  </span>
-                </div>
-
-                <div className="order-meta">
-                  <div>
-                    <ShoppingBag size={16} />
-                    {order.items.length} item
-                  </div>
-
-                  <div>
-                    <Clock size={16} />
-                    {order.created_at}
-                  </div>
-
-                  <div>
-                    {order.order_type === "take_away" ? (
-                      <ShoppingBag size={16} />
-                    ) : (
-                      <Utensils size={16} />
-                    )}
-                    {formatOrderType(order.order_type)}
-                  </div>
-                </div>
-
-                {order.order_type === "take_away" && (
-                  <div className="customer-box">
-                    <div>
-                      <User size={15} />
-                      <span>{order.customer_name || "-"}</span>
-                    </div>
-
-                    <div>
-                      <Phone size={15} />
-                      <span>{order.customer_phone || "-"}</span>
-                    </div>
-                  </div>
-                )}
-
-                <div className="items-box">
-                  {order.items.map((item) => (
-                    <div className="item-row" key={item.id}>
-                      <div>
-                        <strong>{item.menu_name}</strong>
-                        {item.notes && <small>Catatan: {item.notes}</small>}
-                      </div>
-
-                      <span>
-                        {item.quantity} x {formatRupiah(item.price)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="order-total">
-                  <span>Total</span>
-                  <strong>{formatRupiah(order.total_amount)}</strong>
-                </div>
-
-                <div className="order-actions">
-                  <button
-                    className="process-btn"
-                    onClick={() => updateStatus(order.id, "processing")}
-                    disabled={order.status === "processing"}
-                  >
-                    <Utensils size={16} />
-                    Proses
-                  </button>
-
-                  <button
-                    className="done-btn"
-                    onClick={() => updateStatus(order.id, "completed")}
-                    disabled={order.status === "completed"}
-                  >
-                    <CheckCircle2 size={16} />
-                    Selesai
-                  </button>
-
-                  <button
-                    className="cancel-btn"
-                    onClick={() => updateStatus(order.id, "cancelled")}
-                    disabled={order.status === "cancelled"}
-                  >
-                    <XCircle size={16} />
-                    Batalkan
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
+        {ordersContent}
       </section>
     </main>
   );

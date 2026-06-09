@@ -284,17 +284,13 @@ export default function AdminMenus() {
             />
           </div>
 
-          <button
-            className="save-menu-btn"
-            onClick={saveMenu}
-            disabled={saving}
-          >
+          <button className="save-menu-btn" onClick={saveMenu} disabled={saving}>
             <Save size={17} />
-            {saving
-              ? "Menyimpan..."
-              : editing
-                ? "Simpan Perubahan"
-                : "Tambah Menu"}
+            {(() => {
+              if (saving) return "Menyimpan...";
+              if (editing) return "Simpan Perubahan";
+              return "Tambah Menu";
+            })()}
           </button>
         </section>
 

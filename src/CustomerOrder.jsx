@@ -749,8 +749,15 @@ export default function CustomerOrder() {
 
         {/* Detail Sheet Overlay */}
         {selectedMenu && (
-          <div className="overlay" onClick={() => setSelectedMenu(null)}>
-            <div className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
+          <dialog
+            open
+            className="overlay"
+            onClick={() => setSelectedMenu(null)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setSelectedMenu(null);
+            }}
+          >
+            <div className="bottom-sheet">
               <button
                 className="close-btn"
                 onClick={() => setSelectedMenu(null)}
@@ -791,13 +798,20 @@ export default function CustomerOrder() {
                 </button>
               </div>
             </div>
-          </div>
+          </dialog>
         )}
 
         {/* Cart Sheet Overlay */}
         {cartOpen && (
-          <div className="overlay" onClick={() => setCartOpen(false)}>
-            <div className="cart-sheet" onClick={(e) => e.stopPropagation()}>
+          <dialog
+            open
+            className="overlay"
+            onClick={() => setCartOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setCartOpen(false);
+            }}
+          >
+            <div className="cart-sheet">
               <button className="close-btn" onClick={() => setCartOpen(false)}>
                 <X size={20} />
               </button>
@@ -878,12 +892,18 @@ export default function CustomerOrder() {
                 </button>
               </div>
             </div>
-          </div>
+          </dialog>
         )}
 
         {/* Receipt Modal Overlay */}
         {receiptOpen && (
-          <div className="overlay">
+          <dialog
+            open
+            className="overlay"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setReceiptOpen(false);
+            }}
+          >
             <div className="receipt-modal">
               <div className="receipt-icon">
                 <ReceiptText size={26} />
@@ -972,16 +992,20 @@ export default function CustomerOrder() {
                 Pesan Lagi
               </button>
             </div>
-          </div>
+          </dialog>
         )}
 
         {/* Admin Login Modal Overlay */}
         {adminLoginOpen && (
-          <div className="overlay" onClick={() => setAdminLoginOpen(false)}>
-            <div
-              className="admin-login-modal"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <dialog
+            open
+            className="overlay"
+            onClick={() => setAdminLoginOpen(false)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") setAdminLoginOpen(false);
+            }}
+          >
+            <div className="admin-login-modal">
               <button
                 className="close-btn"
                 onClick={() => setAdminLoginOpen(false)}
@@ -1034,7 +1058,7 @@ export default function CustomerOrder() {
                 Masuk Dashboard
               </button>
             </div>
-          </div>
+          </dialog>
         )}
       </section>
     </main>

@@ -5,7 +5,6 @@ import {
   Flame,
   Clock,
   CheckCircle2,
-  Utensils,
   ShoppingBag,
   User,
   Phone,
@@ -95,6 +94,98 @@ export default function AdminKitchen() {
     return () => clearInterval(interval);
   }, []);
 
+  let kitchenContent;
+  if (loading) {
+    kitchenContent = <div className="kitchen-empty">Memuat pesanan dapur...</div>;
+  } else if (orders.length === 0) {
+    kitchenContent = (
+      <div className="kitchen-empty">Tidak ada pesanan aktif untuk dapur.</div>
+    );
+  } else {
+    kitchenContent = (
+      <section className="kitchen-grid">
+        {orders.map((order) => (
+          <article className="kitchen-card" key={order.id}>
+            <div className="kitchen-card-top">
+              <div>
+                <h3>{order.order_code}</h3>
+
+                <div className="kitchen-order-type">
+                  {order.order_type === "take_away" ? (
+                    <>
+                      <ShoppingBag size={15} />
+                      <span>Take Away</span>
+                    </>
+                  ) : (
+                    <>
+                      <Table2 size={15} />
+                      <span>Meja {order.table_number}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <span className={`kitchen-status ${order.status}`}>
+                {formatStatus(order.status)}
+              </span>
+            </div>
+
+            {order.order_type === "take_away" && (
+              <div className="kitchen-customer">
+                <div>
+                  <User size={15} />
+                  <span>{order.customer_name || "-"}</span>
+                </div>
+
+                <div>
+                  <Phone size={15} />
+                  <span>{order.customer_phone || "-"}</span>
+                </div>
+              </div>
+            )}
+
+            <div className="kitchen-time">
+              <Clock size={16} />
+              {order.created_at}
+            </div>
+
+            <div className="kitchen-items">
+              {order.items.map((item) => (
+                <div className="kitchen-item" key={item.id}>
+                  <div>
+                    <strong>
+                      {item.quantity}x {item.menu_name}
+                    </strong>
+                    {item.notes && <small>Catatan: {item.notes}</small>}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="kitchen-actions">
+              <button
+                className="cook-btn"
+                onClick={() => updateStatus(order.id, "processing")}
+                disabled={order.status === "processing"}
+              >
+                <Flame size={17} />
+                Masak
+              </button>
+
+              <button
+                className="finish-btn"
+                onClick={() => updateStatus(order.id, "completed")}
+              >
+                <CheckCircle2 size={17} />
+                Selesai
+              </button>
+            </div>
+          </article>
+        ))}
+      </section>
+    );
+  }
+
   return (
     <main className="kitchen-page">
       <section className="kitchen-shell">
@@ -120,94 +211,7 @@ export default function AdminKitchen() {
 
         {message && <div className="kitchen-message">{message}</div>}
 
-        {loading ? (
-          <div className="kitchen-empty">Memuat pesanan dapur...</div>
-        ) : orders.length === 0 ? (
-          <div className="kitchen-empty">
-            Tidak ada pesanan aktif untuk dapur.
-          </div>
-        ) : (
-          <section className="kitchen-grid">
-            {orders.map((order) => (
-              <article className="kitchen-card" key={order.id}>
-                <div className="kitchen-card-top">
-                  <div>
-                    <h3>{order.order_code}</h3>
-
-                    <div className="kitchen-order-type">
-                      {order.order_type === "take_away" ? (
-                        <>
-                          <ShoppingBag size={15} />
-                          <span>Take Away</span>
-                        </>
-                      ) : (
-                        <>
-                          <Table2 size={15} />
-                          <span>Meja {order.table_number}</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  <span className={`kitchen-status ${order.status}`}>
-                    {formatStatus(order.status)}
-                  </span>
-                </div>
-
-                {order.order_type === "take_away" && (
-                  <div className="kitchen-customer">
-                    <div>
-                      <User size={15} />
-                      <span>{order.customer_name || "-"}</span>
-                    </div>
-
-                    <div>
-                      <Phone size={15} />
-                      <span>{order.customer_phone || "-"}</span>
-                    </div>
-                  </div>
-                )}
-
-                <div className="kitchen-time">
-                  <Clock size={16} />
-                  {order.created_at}
-                </div>
-
-                <div className="kitchen-items">
-                  {order.items.map((item) => (
-                    <div className="kitchen-item" key={item.id}>
-                      <div>
-                        <strong>
-                          {item.quantity}x {item.menu_name}
-                        </strong>
-                        {item.notes && <small>Catatan: {item.notes}</small>}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="kitchen-actions">
-                  <button
-                    className="cook-btn"
-                    onClick={() => updateStatus(order.id, "processing")}
-                    disabled={order.status === "processing"}
-                  >
-                    <Flame size={17} />
-                    Masak
-                  </button>
-
-                  <button
-                    className="finish-btn"
-                    onClick={() => updateStatus(order.id, "completed")}
-                  >
-                    <CheckCircle2 size={17} />
-                    Selesai
-                  </button>
-                </div>
-              </article>
-            ))}
-          </section>
-        )}
+        {kitchenContent}
       </section>
     </main>
   );

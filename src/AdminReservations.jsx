@@ -54,6 +54,78 @@ export default function AdminReservations() {
     loadReservations();
   }, []);
 
+  let reservationsContent;
+  if (loading) {
+    reservationsContent = (
+      <div className="reservation-empty">Memuat data reservasi...</div>
+    );
+  } else if (reservations.length === 0) {
+    reservationsContent = <div className="reservation-empty">Belum ada reservasi.</div>;
+  } else {
+    reservationsContent = (
+      <div className="reservation-grid">
+        {reservations.map((item) => (
+          <div key={item.id} className="reservation-card">
+            <div className="reservation-top">
+              <h3>{item.customer_name}</h3>
+
+              <span className={`status ${item.status}`}>
+                {formatStatus(item.status)}
+              </span>
+            </div>
+
+            <div className="reservation-info">
+              <div>
+                <Phone size={15} />
+                {item.phone}
+              </div>
+
+              <div>
+                <Table2 size={15} />
+                Meja {item.table_number}
+              </div>
+
+              <div>
+                <CalendarDays size={15} />
+                {item.reservation_date}
+              </div>
+
+              <div>
+                <CalendarDays size={15} />
+                {item.reservation_time}
+              </div>
+
+              <div>
+                <Users size={15} />
+                {item.guests} Orang
+              </div>
+            </div>
+
+            <div className="reservation-actions">
+              <button
+                className="confirm-btn"
+                onClick={() => updateStatus(item.id, "confirmed")}
+                disabled={item.status === "confirmed"}
+              >
+                <CheckCircle2 size={16} />
+                Konfirmasi
+              </button>
+
+              <button
+                className="cancel-btn"
+                onClick={() => updateStatus(item.id, "cancelled")}
+                disabled={item.status === "cancelled"}
+              >
+                <XCircle size={16} />
+                Batalkan
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const updateStatus = async (id, status) => {
     try {
       const response = await fetch(`${API_URL}/update_reservation_status.php`, {
@@ -108,72 +180,7 @@ export default function AdminReservations() {
 
         {message && <div className="reservation-message">{message}</div>}
 
-        {loading ? (
-          <div className="reservation-empty">Memuat data reservasi...</div>
-        ) : reservations.length === 0 ? (
-          <div className="reservation-empty">Belum ada reservasi.</div>
-        ) : (
-          <div className="reservation-grid">
-            {reservations.map((item) => (
-              <div key={item.id} className="reservation-card">
-                <div className="reservation-top">
-                  <h3>{item.customer_name}</h3>
-
-                  <span className={`status ${item.status}`}>
-                    {formatStatus(item.status)}
-                  </span>
-                </div>
-
-                <div className="reservation-info">
-                  <div>
-                    <Phone size={15} />
-                    {item.phone}
-                  </div>
-
-                  <div>
-                    <Table2 size={15} />
-                    Meja {item.table_number}
-                  </div>
-
-                  <div>
-                    <CalendarDays size={15} />
-                    {item.reservation_date}
-                  </div>
-
-                  <div>
-                    <CalendarDays size={15} />
-                    {item.reservation_time}
-                  </div>
-
-                  <div>
-                    <Users size={15} />
-                    {item.guests} Orang
-                  </div>
-                </div>
-
-                <div className="reservation-actions">
-                  <button
-                    className="confirm-btn"
-                    onClick={() => updateStatus(item.id, "confirmed")}
-                    disabled={item.status === "confirmed"}
-                  >
-                    <CheckCircle2 size={16} />
-                    Konfirmasi
-                  </button>
-
-                  <button
-                    className="cancel-btn"
-                    onClick={() => updateStatus(item.id, "cancelled")}
-                    disabled={item.status === "cancelled"}
-                  >
-                    <XCircle size={16} />
-                    Batalkan
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {reservationsContent}
       </div>
     </main>
   );
