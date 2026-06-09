@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminMenus.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 const emptyForm = {
   id: null,
@@ -284,9 +284,17 @@ export default function AdminMenus() {
             />
           </div>
 
-          <button className="save-menu-btn" onClick={saveMenu} disabled={saving}>
+          <button
+            className="save-menu-btn"
+            onClick={saveMenu}
+            disabled={saving}
+          >
             <Save size={17} />
-            {saving ? "Menyimpan..." : editing ? "Simpan Perubahan" : "Tambah Menu"}
+            {saving
+              ? "Menyimpan..."
+              : editing
+                ? "Simpan Perubahan"
+                : "Tambah Menu"}
           </button>
         </section>
 

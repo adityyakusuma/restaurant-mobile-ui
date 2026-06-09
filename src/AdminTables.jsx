@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminTables.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 const statusLabels = {
   available: "Kosong",
@@ -79,9 +79,15 @@ export default function AdminTables() {
     loadTables();
   }, []);
 
-  const totalAvailable = tables.filter((item) => item.status === "available").length;
-  const totalOccupied = tables.filter((item) => item.status === "occupied").length;
-  const totalReserved = tables.filter((item) => item.status === "reserved").length;
+  const totalAvailable = tables.filter(
+    (item) => item.status === "available",
+  ).length;
+  const totalOccupied = tables.filter(
+    (item) => item.status === "occupied",
+  ).length;
+  const totalReserved = tables.filter(
+    (item) => item.status === "reserved",
+  ).length;
 
   return (
     <main className="tables-page">
@@ -140,7 +146,10 @@ export default function AdminTables() {
 
             <section className="tables-grid">
               {tables.map((table) => (
-                <article className={`table-card ${table.status}`} key={table.id}>
+                <article
+                  className={`table-card ${table.status}`}
+                  key={table.id}
+                >
                   <div className="table-card-top">
                     <div className="table-number-icon">
                       <Table2 size={22} />

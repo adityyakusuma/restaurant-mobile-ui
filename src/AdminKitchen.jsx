@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminKitchen.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 function formatStatus(status) {
   const labels = {
@@ -44,7 +44,7 @@ export default function AdminKitchen() {
       }
 
       const activeOrders = result.data.filter(
-        (order) => order.status === "pending" || order.status === "processing"
+        (order) => order.status === "pending" || order.status === "processing",
       );
 
       setOrders(activeOrders);

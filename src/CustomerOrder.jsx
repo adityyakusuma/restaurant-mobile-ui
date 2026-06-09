@@ -31,7 +31,7 @@ import esTehManis from "./assets/menu/es-teh-manis.jpg";
 import jusAlpukat from "./assets/menu/jus-alpukat.jpg";
 import airMineral from "./assets/menu/air-mineral.jpg";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 const imageMap = {
   "nasi-goreng.jpg": nasiGoreng,
@@ -125,10 +125,14 @@ export default function CustomerOrder() {
     tableValue >= 1 &&
     tableValue <= 25;
 
-  const filteredMenus = menus.filter((item) => item.category === activeCategory);
+  const filteredMenus = menus.filter(
+    (item) => item.category === activeCategory,
+  );
 
   const featuredMenus = menus
-    .filter((item) => item.badge || item.id === 1 || item.id === 2 || item.id === 9)
+    .filter(
+      (item) => item.badge || item.id === 1 || item.id === 2 || item.id === 9,
+    )
     .slice(0, 4);
 
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
@@ -171,7 +175,9 @@ export default function CustomerOrder() {
 
       setMenus(menusFromApi);
     } catch (error) {
-      setMenuError("Menu belum bisa dimuat. Pastikan WampServer dan resto-api sudah aktif.");
+      setMenuError(
+        "Menu belum bisa dimuat. Pastikan WampServer dan resto-api sudah aktif.",
+      );
     } finally {
       setMenuLoading(false);
     }
@@ -267,7 +273,9 @@ export default function CustomerOrder() {
     }
 
     if (!timeRegex.test(time)) {
-      setBookingWarning("Gunakan format jam Indonesia, contoh: 18:30 atau 07:15.");
+      setBookingWarning(
+        "Gunakan format jam Indonesia, contoh: 18:30 atau 07:15.",
+      );
       return;
     }
 
@@ -299,11 +307,18 @@ export default function CustomerOrder() {
 
       setBookingSuccess(
         `Reservasi atas nama ${name} berhasil dibuat untuk Meja ${table_number} pada ${formatTanggalIndonesia(
-          date
-        )}, pukul ${time}, untuk ${guests} tamu.`
+          date,
+        )}, pukul ${time}, untuk ${guests} tamu.`,
       );
 
-      setBookingData({ name: "", phone: "", table_number: "", date: "", time: "", guests: "" });
+      setBookingData({
+        name: "",
+        phone: "",
+        table_number: "",
+        date: "",
+        time: "",
+        guests: "",
+      });
       setBookingWarning("");
       setBookingOpen(false);
 
@@ -325,14 +340,16 @@ export default function CustomerOrder() {
     if (!selectedMenu) return;
 
     const existingItem = cart.find(
-      (item) => item.menuId === selectedMenu.id && item.note === note
+      (item) => item.menuId === selectedMenu.id && item.note === note,
     );
 
     if (existingItem) {
       setCart((prev) =>
         prev.map((item) =>
-          item.cartId === existingItem.cartId ? { ...item, qty: item.qty + qty } : item
-        )
+          item.cartId === existingItem.cartId
+            ? { ...item, qty: item.qty + qty }
+            : item,
+        ),
       );
     } else {
       const cartItem = {
@@ -369,7 +386,7 @@ export default function CustomerOrder() {
           const newQty = type === "plus" ? item.qty + 1 : item.qty - 1;
           return { ...item, qty: newQty };
         })
-        .filter((item) => item.qty > 0)
+        .filter((item) => item.qty > 0),
     );
   };
 
@@ -380,22 +397,16 @@ export default function CustomerOrder() {
     }
 
     if (
-    orderType === "take_away" &&
-    (
-        !customerName.trim() ||
-        !customerPhone.trim()
-    )
+      orderType === "take_away" &&
+      (!customerName.trim() || !customerPhone.trim())
     ) {
-    alert("Lengkapi data pemesan.");
-    return;
+      alert("Lengkapi data pemesan.");
+      return;
     }
 
-    if (
-    orderType === "take_away" &&
-    customerPhone.length < 10
-    ) {
-    alert("Nomor telepon minimal 10 digit.");
-    return;
+    if (orderType === "take_away" && customerPhone.length < 10) {
+      alert("Nomor telepon minimal 10 digit.");
+      return;
     }
 
     if (cart.length === 0) return;
@@ -436,7 +447,7 @@ export default function CustomerOrder() {
     }
   };
 
-    const orderAgain = () => {
+  const orderAgain = () => {
     setCart([]);
     setReceiptOpen(false);
     setOrderCode("");
@@ -445,7 +456,7 @@ export default function CustomerOrder() {
     setCustomerPhone("");
 
     setOrderType("dine_in");
-    };
+  };
 
   return (
     <main className="app-shell">
@@ -461,7 +472,10 @@ export default function CustomerOrder() {
               <p>Cita rasa Nusantara dalam setiap sajian</p>
             </div>
           </div>
-          <button className="admin-entry-btn" onClick={() => setAdminLoginOpen(true)}>
+          <button
+            className="admin-entry-btn"
+            onClick={() => setAdminLoginOpen(true)}
+          >
             <ShieldCheck size={16} />
             Admin
           </button>
@@ -473,7 +487,8 @@ export default function CustomerOrder() {
             <span className="hero-label">Pesan dari meja Anda</span>
             <h2>Makan lebih mudah, cepat, dan nyaman.</h2>
             <p>
-              Pilih menu favorit, tambahkan catatan, lalu lanjutkan pembayaran langsung dari satu halaman.
+              Pilih menu favorit, tambahkan catatan, lalu lanjutkan pembayaran
+              langsung dari satu halaman.
             </p>
           </div>
         </section>
@@ -525,7 +540,9 @@ export default function CustomerOrder() {
               type="text"
               placeholder="Nomor Telepon"
               value={customerPhone}
-              onChange={(e) => setCustomerPhone(e.target.value.replace(/\D/g, ""))}
+              onChange={(e) =>
+                setCustomerPhone(e.target.value.replace(/\D/g, ""))
+              }
             />
           </section>
         )}
@@ -548,7 +565,9 @@ export default function CustomerOrder() {
               onChange={handleTableChange}
             />
             {tableWarning && (
-              <p className="warning-text">Nomor meja hanya tersedia dari 1 sampai 25.</p>
+              <p className="warning-text">
+                Nomor meja hanya tersedia dari 1 sampai 25.
+              </p>
             )}
             {isTableValid && (
               <div className="connected-status">
@@ -561,7 +580,10 @@ export default function CustomerOrder() {
 
         {/* Reservation Section */}
         <section className="booking-box animate-in delay-4">
-          <button className="booking-toggle" onClick={() => setBookingOpen(!bookingOpen)}>
+          <button
+            className="booking-toggle"
+            onClick={() => setBookingOpen(!bookingOpen)}
+          >
             <span>Reservasi Meja</span>
             <span>{bookingOpen ? "Tutup" : "Buka"}</span>
           </button>
@@ -611,7 +633,9 @@ export default function CustomerOrder() {
                 value={bookingData.guests}
                 onChange={handleBookingChange}
               />
-              {bookingWarning && <p className="warning-text">{bookingWarning}</p>}
+              {bookingWarning && (
+                <p className="warning-text">{bookingWarning}</p>
+              )}
               <button onClick={handleBookingSubmit} disabled={submitLoading}>
                 {submitLoading ? "Memproses..." : "Reservasi Sekarang"}
               </button>
@@ -641,7 +665,11 @@ export default function CustomerOrder() {
           {!menuLoading && !menuError && (
             <div className="featured-strip">
               {featuredMenus.map((item) => (
-                <button key={item.id} className="featured-item" onClick={() => openMenu(item)}>
+                <button
+                  key={item.id}
+                  className="featured-item"
+                  onClick={() => openMenu(item)}
+                >
                   <img src={item.image} alt={item.name} />
                   <div>
                     <span>{item.badge || "Pilihan Menu"}</span>
@@ -723,12 +751,21 @@ export default function CustomerOrder() {
         {selectedMenu && (
           <div className="overlay" onClick={() => setSelectedMenu(null)}>
             <div className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
-              <button className="close-btn" onClick={() => setSelectedMenu(null)}>
+              <button
+                className="close-btn"
+                onClick={() => setSelectedMenu(null)}
+              >
                 <X size={20} />
               </button>
-              <img className="sheet-image" src={selectedMenu.image} alt={selectedMenu.name} />
+              <img
+                className="sheet-image"
+                src={selectedMenu.image}
+                alt={selectedMenu.name}
+              />
               <div className="sheet-content">
-                <span className="sheet-badge">{selectedMenu.badge || "Menu"}</span>
+                <span className="sheet-badge">
+                  {selectedMenu.badge || "Menu"}
+                </span>
                 <h3>{selectedMenu.name}</h3>
                 <p>{selectedMenu.desc}</p>
                 <strong>{formatRupiah(selectedMenu.price)}</strong>
@@ -783,14 +820,21 @@ export default function CustomerOrder() {
                       {item.note && <small>Catatan: {item.note}</small>}
 
                       <div className="cart-actions">
-                        <button onClick={() => updateCartQty(item.cartId, "minus")}>
+                        <button
+                          onClick={() => updateCartQty(item.cartId, "minus")}
+                        >
                           <Minus size={14} />
                         </button>
                         <span>{item.qty}</span>
-                        <button onClick={() => updateCartQty(item.cartId, "plus")}>
+                        <button
+                          onClick={() => updateCartQty(item.cartId, "plus")}
+                        >
                           <Plus size={14} />
                         </button>
-                        <button className="remove-btn" onClick={() => removeCartItem(item.cartId)}>
+                        <button
+                          className="remove-btn"
+                          onClick={() => removeCartItem(item.cartId)}
+                        >
                           Hapus
                         </button>
                       </div>
@@ -810,11 +854,14 @@ export default function CustomerOrder() {
                 </div>
 
                 {orderType === "dine_in" && !isTableValid && (
-                  <p className="warning-text">Nomor meja harus diisi dari 1 sampai 25.</p>
+                  <p className="warning-text">
+                    Nomor meja harus diisi dari 1 sampai 25.
+                  </p>
                 )}
-                {orderType === "take_away" && (!customerName.trim() || !customerPhone.trim()) && (
-                  <p className="warning-text">Data pemesan belum lengkap.</p>
-                )}
+                {orderType === "take_away" &&
+                  (!customerName.trim() || !customerPhone.trim()) && (
+                    <p className="warning-text">Data pemesan belum lengkap.</p>
+                  )}
 
                 <button
                   className="primary-btn"
@@ -823,7 +870,8 @@ export default function CustomerOrder() {
                     !cart.length ||
                     submitLoading ||
                     (orderType === "dine_in" && !isTableValid) ||
-                    (orderType === "take_away" && (!customerName.trim() || !customerPhone.trim()))
+                    (orderType === "take_away" &&
+                      (!customerName.trim() || !customerPhone.trim()))
                   }
                 >
                   {submitLoading ? "Memproses..." : "Lanjut Pembayaran"}
@@ -842,7 +890,9 @@ export default function CustomerOrder() {
               </div>
 
               <h3>Pesanan Diterima</h3>
-              <p className="receipt-subtitle">Pesanan Anda sedang diproses oleh dapur kami.</p>
+              <p className="receipt-subtitle">
+                Pesanan Anda sedang diproses oleh dapur kami.
+              </p>
 
               <div className="order-status">
                 <div className="active">
@@ -869,29 +919,29 @@ export default function CustomerOrder() {
                   <strong>{orderCode}</strong>
                 </div>
                 {orderType === "dine_in" && (
-                <div className="receipt-line">
+                  <div className="receipt-line">
                     <span>Nomor Meja</span>
                     <strong>{Number(tableNumber)}</strong>
-                </div>
+                  </div>
                 )}
 
                 {orderType === "take_away" && (
-                <>
+                  <>
                     <div className="receipt-line">
-                    <span>Jenis Pesanan</span>
-                    <strong>Take Away</strong>
+                      <span>Jenis Pesanan</span>
+                      <strong>Take Away</strong>
                     </div>
 
                     <div className="receipt-line">
-                    <span>Nama Pemesan</span>
-                    <strong>{customerName}</strong>
+                      <span>Nama Pemesan</span>
+                      <strong>{customerName}</strong>
                     </div>
 
                     <div className="receipt-line">
-                    <span>No. Telepon</span>
-                    <strong>{customerPhone}</strong>
+                      <span>No. Telepon</span>
+                      <strong>{customerPhone}</strong>
                     </div>
-                </>
+                  </>
                 )}
 
                 <div className="receipt-line">
@@ -928,8 +978,14 @@ export default function CustomerOrder() {
         {/* Admin Login Modal Overlay */}
         {adminLoginOpen && (
           <div className="overlay" onClick={() => setAdminLoginOpen(false)}>
-            <div className="admin-login-modal" onClick={(e) => e.stopPropagation()}>
-              <button className="close-btn" onClick={() => setAdminLoginOpen(false)}>
+            <div
+              className="admin-login-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="close-btn"
+                onClick={() => setAdminLoginOpen(false)}
+              >
                 <X size={20} />
               </button>
 
@@ -965,7 +1021,9 @@ export default function CustomerOrder() {
                 </button>
               </div>
 
-              {adminLoginError && <p className="warning-text">{adminLoginError}</p>}
+              {adminLoginError && (
+                <p className="warning-text">{adminLoginError}</p>
+              )}
 
               <div className="demo-account">
                 <span>Demo Admin</span>

@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminReservations.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 function formatStatus(status) {
   const labels = {
@@ -56,19 +56,16 @@ export default function AdminReservations() {
 
   const updateStatus = async (id, status) => {
     try {
-      const response = await fetch(
-        `${API_URL}/update_reservation_status.php`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id,
-            status,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/update_reservation_status.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          status,
+        }),
+      });
 
       const result = await response.json();
 

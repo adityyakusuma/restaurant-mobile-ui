@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminOrders.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 function formatRupiah(value) {
   return new Intl.NumberFormat("id-ID", {

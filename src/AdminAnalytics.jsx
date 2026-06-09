@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminAnalytics.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 function formatRupiah(value) {
   return new Intl.NumberFormat("id-ID", {
@@ -53,12 +53,12 @@ export default function AdminAnalytics() {
 
   const maxRevenue = Math.max(
     ...(analytics?.daily_sales || []).map((item) => Number(item.revenue || 0)),
-    1
+    1,
   );
 
   const maxSold = Math.max(
     ...(analytics?.top_menus || []).map((item) => Number(item.total_sold || 0)),
-    1
+    1,
   );
 
   return (
@@ -127,12 +127,14 @@ export default function AdminAnalytics() {
                   {analytics.daily_sales.map((item) => {
                     const height = Math.max(
                       12,
-                      (Number(item.revenue) / maxRevenue) * 160
+                      (Number(item.revenue) / maxRevenue) * 160,
                     );
 
                     return (
                       <div className="bar-item" key={item.date}>
-                        <div className="bar-value">{formatRupiah(item.revenue)}</div>
+                        <div className="bar-value">
+                          {formatRupiah(item.revenue)}
+                        </div>
                         <div
                           className="bar"
                           style={{ height: `${height}px` }}
@@ -159,7 +161,7 @@ export default function AdminAnalytics() {
                     analytics.top_menus.map((item, index) => {
                       const width = Math.max(
                         8,
-                        (Number(item.total_sold) / maxSold) * 100
+                        (Number(item.total_sold) / maxSold) * 100,
                       );
 
                       return (

@@ -17,7 +17,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 
-const API_URL = "http://localhost/resto-api";
+const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
 
 function formatRupiah(value) {
   return new Intl.NumberFormat("id-ID", {
@@ -71,11 +71,11 @@ export default function AdminDashboard() {
   const today = new Date().toISOString().slice(0, 10);
 
   const todayOrders = orders.filter((order) =>
-    order.created_at?.startsWith(today)
+    order.created_at?.startsWith(today),
   );
 
   const todayReservations = reservations.filter(
-    (reservation) => reservation.reservation_date === today
+    (reservation) => reservation.reservation_date === today,
   );
 
   const todayRevenue = todayOrders
@@ -85,17 +85,19 @@ export default function AdminDashboard() {
   const pendingOrders = orders.filter((order) => order.status === "pending");
 
   const processingOrders = orders.filter(
-    (order) => order.status === "processing"
+    (order) => order.status === "processing",
   );
 
-  const completedOrders = orders.filter((order) => order.status === "completed");
+  const completedOrders = orders.filter(
+    (order) => order.status === "completed",
+  );
 
   const takeAwayToday = todayOrders.filter(
-    (order) => order.order_type === "take_away"
+    (order) => order.order_type === "take_away",
   );
 
   const dineInToday = todayOrders.filter(
-    (order) => order.order_type !== "take_away"
+    (order) => order.order_type !== "take_away",
   );
 
   const activeMenus = menus.filter((menu) => Number(menu.is_active) === 1);
