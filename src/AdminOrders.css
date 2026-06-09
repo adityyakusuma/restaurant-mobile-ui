@@ -1,0 +1,28 @@
+.order-type-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 6px;
+  color: #64746b;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.customer-box {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: #f7fff9;
+  border: 1px solid #dcfce7;
+}
+
+.customer-box div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 800;
+}
