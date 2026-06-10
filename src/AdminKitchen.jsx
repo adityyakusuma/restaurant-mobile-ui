@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminKitchen.css";
 
-const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
+const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
 
 function formatStatus(status) {
   const labels = {
@@ -96,7 +96,9 @@ export default function AdminKitchen() {
 
   let kitchenContent;
   if (loading) {
-    kitchenContent = <div className="kitchen-empty">Memuat pesanan dapur...</div>;
+    kitchenContent = (
+      <div className="kitchen-empty">Memuat pesanan dapur...</div>
+    );
   } else if (orders.length === 0) {
     kitchenContent = (
       <div className="kitchen-empty">Tidak ada pesanan aktif untuk dapur.</div>

@@ -17,7 +17,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 
-const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
+const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
 
 function formatRupiah(value) {
   return new Intl.NumberFormat("id-ID", {

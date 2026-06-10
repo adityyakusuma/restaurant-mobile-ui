@@ -12,7 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminReservations.css";
 
-const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
+const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
 
 function formatStatus(status) {
   const labels = {
@@ -60,7 +60,9 @@ export default function AdminReservations() {
       <div className="reservation-empty">Memuat data reservasi...</div>
     );
   } else if (reservations.length === 0) {
-    reservationsContent = <div className="reservation-empty">Belum ada reservasi.</div>;
+    reservationsContent = (
+      <div className="reservation-empty">Belum ada reservasi.</div>
+    );
   } else {
     reservationsContent = (
       <div className="reservation-grid">

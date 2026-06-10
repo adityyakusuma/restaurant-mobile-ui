@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminTables.css";
 
-const API_URL = "https://restaurantdemoo.rf.gd/resto-api";
+const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
 
 const statusLabels = {
   available: "Kosong",
