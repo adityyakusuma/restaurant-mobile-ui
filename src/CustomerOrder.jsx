@@ -153,7 +153,7 @@ export default function CustomerOrder() {
       setMenuLoading(true);
       setMenuError("");
 
-      const response = await fetch(`${API_URL}/menus.php`);
+      const response = await fetch(`${API_URL}/menus`);
       const result = await response.json();
 
       if (!result.success) {
