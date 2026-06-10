@@ -31,7 +31,7 @@ import esTehManis from "./assets/menu/es-teh-manis.jpg";
 import jusAlpukat from "./assets/menu/jus-alpukat.jpg";
 import airMineral from "./assets/menu/air-mineral.jpg";
 
-const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
+const API_URL = "/api";
 
 const imageMap = {
   "nasi-goreng.jpg": nasiGoreng,

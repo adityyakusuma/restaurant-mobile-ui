@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminKitchen.css";
 
-const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
+const API_URL = "/api";
 
 function formatStatus(status) {
   const labels = {

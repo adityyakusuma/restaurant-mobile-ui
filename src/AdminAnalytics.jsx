@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminAnalytics.css";
 
-const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
+const API_URL = "/api";
 
 function formatRupiah(value) {
   return new Intl.NumberFormat("id-ID", {

@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./AdminMenus.css";
 
-const API_URL = "https://dapurrempah.infinityfreeapp.com/resto-api";
+const API_URL = "/api";
 
 const emptyForm = {
   id: null,
